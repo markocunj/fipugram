@@ -1,7 +1,7 @@
 <template>
 <div id="app">
     <nav id="nav" class="navbar navbar-expand-lg navbar-light">
-      <a class="navbar-brand" href="/">
+      <a class="navbar-brand" href="#">
         <img
           src="@/assets/fipu_logo.png"
           height="40"
@@ -13,16 +13,16 @@
         class="navbar-toggler"
         type="button"
         data-toggle="collapse"
-        data-target="#navbarToggler"
-        aria-controls="navbarToggler"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
         aria-expanded="false"
         aria-label="Toggle navigation"
   	  >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarToggler">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-          <li class="nav-item">
+      <div id="navbarSupportedContent" class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
             <router-link to="/" class="nav-link">Home</router-link>
           </li>
           <li class="nav-item">
@@ -62,14 +62,14 @@
   background-color: white !important;
   a {
     font-weight: bold;
-    color: #2c3e50;
+    color: #0c2324;
     padding-right: 10px;
     &.router-link-exact-active {
-      color: #0086cc;
+      color: #228bc7;
     }
   }
-}
+} 
 a {
-  color: #0086cc;
+  color: #030a0e;
 }
 </style>
