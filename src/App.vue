@@ -1,5 +1,5 @@
 <template>
-<div id="app">
+  <div id="app">
     <nav id="nav" class="navbar navbar-expand-lg navbar-light">
       <a class="navbar-brand" href="#">
         <img
@@ -17,7 +17,7 @@
         aria-controls="navbarSupportedContent"
         aria-expanded="false"
         aria-label="Toggle navigation"
-  	  >
+      >
         <span class="navbar-toggler-icon"></span>
       </button>
       <div id="navbarSupportedContent" class="collapse navbar-collapse">
@@ -29,7 +29,9 @@
             <router-link to="/login" class="nav-link">Prijava</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/signup" class="nav-link">Registracija</router-link>
+            <router-link to="/signup" class="nav-link"
+              >Registracija</router-link
+            >
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -42,7 +44,7 @@
         </form>
       </div>
     </nav>
-    
+
     <div class="container">
       <router-view />
     </div>
@@ -68,7 +70,7 @@
       color: #228bc7;
     }
   }
-} 
+}
 a {
   color: #030a0e;
 }
