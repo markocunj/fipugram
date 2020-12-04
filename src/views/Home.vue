@@ -2,10 +2,14 @@
   <div class="row">
     <div class="col-2"></div>
     <div class="col-7">
-      <instagram-card v-for="card in cards" :key="card" :info="card" />
+      <instagram-card
+        v-for="card in filteredCards"
+        :key="card.url"
+        :info="card"
+      />
     </div>
     <div class="col-3">
-      <p v-for="card in cards" :key="card">Ovo je tekst... {{ card }}</p>
+      Sidebar
     </div>
   </div>
 </template>
@@ -13,22 +17,43 @@
 <script>
 // @ is an alias to /src
 import instagramCard from "@/components/instagramCard.vue";
+import store from "@/store.js";
 
 let cards = [];
 
 cards = [
-  "https://picsum.photos/id/1/400/400",
-  "https://picsum.photos/id/2/400/400",
-  "https://picsum.photos/id/3/400/400",
-  "https://picsum.photos/id/4/400/400",
+  {
+    url: "https://picsum.photos/id/1/400/400",
+    description: "Laptop #1",
+    time: "Few minutes ago..",
+  },
+  {
+    url: "https://picsum.photos/id/2/400/400",
+    description: "Laptop #2",
+    time: "Hour ago..",
+  },
+  {
+    url: "https://picsum.photos/id/3/400/400",
+    description: "Laptop #3",
+    time: "Few hours ago..",
+  },
 ];
 
 export default {
   name: "Home",
-  data: function () {
+  data: function() {
     return {
-      cards: cards,
+      cards,
+      store,
     };
+  },
+  computed: {
+    filteredCards() {
+      let termin = this.store.searchTerm;
+      let newCards = [];
+
+      return this.cards.filter((card) => card.description.includes(termin));
+    },
   },
   components: {
     instagramCard,
