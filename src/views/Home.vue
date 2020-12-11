@@ -50,7 +50,6 @@ export default {
   computed: {
     filteredCards() {
       let termin = this.store.searchTerm;
-      let newCards = [];
 
       return this.cards.filter((card) => card.description.includes(termin));
     },
