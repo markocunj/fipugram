@@ -9,7 +9,23 @@
       />
     </div>
     <div class="col-3">
-      Sidebar
+      <div>
+        <input
+          type="ime"
+          v-model="ime"
+          class="form-control"
+          id="primjerIme"
+          placeholder="Vase ime"
+        />
+        <input
+          type="prezime"
+          v-model="prezime"
+          class="form-control"
+          id="primjerPrezime"
+          placeholder="Vase prezime"
+        />
+        <div id="imePrezime">{{ imePrezime }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -45,9 +61,15 @@ export default {
     return {
       cards,
       store,
+      ime: "",
+      prezime: "",
     };
   },
   computed: {
+    imePrezime() {
+      let result = this.ime + " " + this.prezime;
+      return result;
+    },
     filteredCards() {
       let termin = this.store.searchTerm;
 
@@ -59,3 +81,14 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#primjerPrezime {
+  margin-top: 10px;
+}
+#imePrezime {
+  margin-top: 10px;
+  border-style: ridge;
+  border-radius: 5%;
+}
+</style>
