@@ -25,13 +25,16 @@
           <li class="nav-item active">
             <router-link to="/" class="nav-link">Home</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="!store.currentUser" class="nav-item">
             <router-link to="/login" class="nav-link">Prijava</router-link>
           </li>
-          <li class="nav-item">
+          <li v-if="!store.currentUser" class="nav-item">
             <router-link to="/signup" class="nav-link"
               >Registracija</router-link
             >
+          </li>
+          <li v-if="store.currentUser" class="nav-item">
+            <a href="#" @click.prevent="logout()" class="nav-link"> Logout </a>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
@@ -54,6 +57,28 @@
 
 <script>
 import store from "@/store.js";
+import { firebase } from "@/firebase";
+import router from "@/router";
+
+firebase.auth().onAuthStateChanged((user) => {
+  const currentRoute = router.currentRoute;
+
+  if (user) {
+    console.log(user.email);
+    store.currentUser = user.email;
+
+    if (!currentRoute.meta.needsUser) {
+      router.push({ name: "Home" });
+    }
+  } else {
+    console.log("No user");
+    store.currentUser = null;
+
+    if (currentRoute.meta.needsUser) {
+      router.push({ name: "Login" });
+    }
+  }
+});
 
 export default {
   name: "app",
@@ -61,6 +86,16 @@ export default {
     return {
       store,
     };
+  },
+  methods: {
+    logout() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.push({ name: "Login" });
+        });
+    },
   },
 };
 </script>
