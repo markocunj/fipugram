@@ -23,11 +23,13 @@
             id="imageDescription"
           />
         </div>
-        <button type="submit" class="btn btn-primary ml-2">Post image</button>
+        <button type="button" class="btn btn-primary ml-2" @click="provjera()">
+          Post image
+        </button>
       </form>
       <instagram-card
         v-for="card in filteredCards"
-        :key="card.url"
+        :key="card.id"
         :info="card"
       />
     </div>
@@ -54,36 +56,15 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import instagramCard from "@/components/instagramCard.vue";
 import store from "@/store.js";
 import { db } from "@/firebase";
-
-let cards = [];
-
-cards = [
-  {
-    url: "https://picsum.photos/id/1/400/400",
-    description: "Laptop #1",
-    time: "Few minutes ago..",
-  },
-  {
-    url: "https://picsum.photos/id/2/400/400",
-    description: "Laptop #2",
-    time: "Hour ago..",
-  },
-  {
-    url: "https://picsum.photos/id/3/400/400",
-    description: "Laptop #3",
-    time: "Few hours ago..",
-  },
-];
 
 export default {
   name: "Home",
   data: function() {
     return {
-      cards,
+      cards: [],
       store,
       ime: "",
       prezime: "",
@@ -91,7 +72,38 @@ export default {
       newImageUrl: "",
     };
   },
+  mounted() {
+    this.getPosts();
+  },
   methods: {
+    provjera() {
+      if (!this.newImageDescription || !this.newImageUrl) {
+        alert("Oba polja moraju biti popunjena");
+      } else {
+        this.postNewImage();
+      }
+    },
+    getPosts() {
+      console.log("Firebase dohvat..");
+
+      db.collection("posts")
+        .orderBy("posted_at", "desc")
+        .limit(10)
+        .get()
+        .then((query) => {
+          this.cards = [];
+          query.forEach((doc) => {
+            const data = doc.data();
+
+            this.cards.push({
+              id: doc.id,
+              time: data.posted_at,
+              description: data.desc,
+              url: data.url,
+            });
+          });
+        });
+    },
     postNewImage() {
       const imageUrl = this.newImageUrl;
       const imageDescription = this.newImageDescription;
@@ -107,6 +119,7 @@ export default {
           console.log("Spremljeno", doc);
           this.newImageDescription = "";
           this.newImageUrl = "";
+          this.getPosts();
         })
         .catch((e) => {
           console.error(e);
